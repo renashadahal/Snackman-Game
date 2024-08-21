@@ -4,14 +4,15 @@ let leftPressed = false;
 let rightPressed = false;
 let canMove = false;
 
-const startDiv =document.querySelector('.startDiv');
-startDiv.addEventListener('click',function(){
-    startDiv.style.display = 'none';
-})
+// Event listener for the Start button
+document.getElementById('startButton').onclick = () => {
+    canMove = true; // Enable movement
+    document.getElementById('startButton').style.display = 'none'; // Hide the Start button
+};
 
 const main = document.querySelector('main');
 
-//Player = 2, Wall = 1, Enemy = 3, Point = 0
+// Player = 2, Wall = 1, Enemy = 3, Point = 0
 let maze = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 2, 0, 1, 0, 0, 0, 0, 3, 1],
@@ -25,7 +26,7 @@ let maze = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ];
 
-//Populates the maze in the HTML
+// Populates the maze in the HTML
 for (let y of maze) {
     for (let x of y) {
         let block = document.createElement('div');
@@ -54,7 +55,7 @@ for (let y of maze) {
     }
 }
 
-//Player movement
+// Player movement
 function keyUp(event) {
     if (event.key === 'ArrowUp') {
         upPressed = false;
@@ -68,6 +69,7 @@ function keyUp(event) {
 }
 
 function keyDown(event) {
+    if (!canMove) return; // Prevents movement until canMove is true
     if (event.key === 'ArrowUp') {
         upPressed = true;
     } else if (event.key === 'ArrowDown') {
@@ -80,30 +82,25 @@ function keyDown(event) {
 }
 
 const player = document.querySelector('#player');
-const playerMouth = player.querySelector('.mouth');
-let playerTop = 0;
-let playerLeft = 0;
+let playerTop = player.offsetTop;
+let playerLeft = player.offsetLeft;
 
 setInterval(function() {
-    if(downPressed) {
+    if (downPressed) {
         playerTop++;
         player.style.top = playerTop + 'px';
-        playerMouth.classList = 'down';
     }
-    else if(upPressed) {
+    else if (upPressed) {
         playerTop--;
         player.style.top = playerTop + 'px';
-        playerMouth.classList = 'up';
     }
-    else if(leftPressed) {
+    else if (leftPressed) {
         playerLeft--;
         player.style.left = playerLeft + 'px';
-        playerMouth.classList = 'left';
     }
-    else if(rightPressed) {
+    else if (rightPressed) {
         playerLeft++;
         player.style.left = playerLeft + 'px';
-        playerMouth.classList = 'right';
     }
 }, 10);
 
